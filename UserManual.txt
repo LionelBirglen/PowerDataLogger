@@ -1,0 +1,74 @@
+Instructions for using the current and voltage sensor:
+----------------------------------------------------------------
+
+
+Specifications:
+---------------
+Current: -8A min / +8A max
+Voltage:  0V min / +26V max
+
+----------------------------------------------------------------
+
+IMPORTANT:
+NEVER CONNECT A NEGATIVE VOLTAGE BETWEEN VIN+ AND GND
+NEVER CONNECT THE TEENSY POWER SUPPLY IN REVERSE
+
+----------------------------------------------------------------
+
+
+
+LED Indicators:
+---------------
+Solid green: data recording in progress
+Solid red: writing data to SD card
+Alternating red-green blinking: waiting to start (see red paddle switch command)
+Green blinking: data recording is complete, data writing is about to begin
+Red blinking: data writing is complete, will restart either recording or standby
+No light 2s after power-on: SD card not detected
+
+-> Never disconnect the power when the LED is solid red; all other moments are safe.
+
+
+Switches:
+---------
+Paddle switch toward USB = recording in progress
+              toward outside = on standby
+
+dipswitch #   1 - HIGH  (OFF)       0 - LOW (ON)
+dipswitch 1   current or voltage  - current and voltage      choice of number of measured signals
+dipswitch 2   current             - voltage                  signal selection, ignored if "current and voltage"
+dipswitch 3   fast sampling       - slow sampling            500Hz - 5Hz (current and voltage) or 1000Hz - 10Hz (current or voltage)
+dipswitch 4   short recording     - long recording           short=2000 measurements, long=20000 measurements
+dipswitch 5   active filtering    - no filter                zero phase low-pass 0.1Fs 4th order Butterworth
+dipswitch 6   NOT USED
+
+
+Saving:
+-------
+Files written to the SD card are in CSV format and named "Measures***date***_***time***.csv"
+
+
+Notes:
+------
+- LOAD: IN+ MUST BE POSITIVE WITH RESPECT TO GND, OTHERWISE INA219 WILL BE DESTROYED
+- TEENSY: VIN MUST BE POSITIVE WITH RESPECT TO GND, OTHERWISE TEENSY WILL BE DESTROYED
+- Recording durations:
+    2 signals = 4s (fast-short) or 40s (fast-long)
+    2 signals = 6min40s (slow-short) or 1hr6min40s (TO BE TESTED slow-long)
+    1 signal = 2s (fast-short) or 20s (fast-long)
+    1 signal = 3min20s (slow-short) or 33min20s (TO BE TESTED slow-long)
+- The INA219 has a bandwidth of 1000 Hz at -3dB, so around 100-200Hz max for realistic accuracy.
+- The date and time are saved by a CR2032 battery powering the Teensy's RTC. Should last around 5 years.
+
+To do:
+------
+- Calibrate voltage reading
+- Improve current calibration (offset)
+- Support sensor swapping (INA219 Stemma QT, INA260, INA169)
+- Add buck-boost converter on Teensy Vin, e.g. www.adafruit.com/product/2190
+- Add dual diode to secure Teensy power supply www.pjrc.com/teensy/external_power.html
+- Add protection diode on IN+ INA219?
+- Add explicit filter cutoff frequency calculation in program
+- Make program more robust against errors: INA219 absent, RTC not responding (dead battery), no SD card, etc.
+- Replace Teensy 3.5 with Teensy 4.1
+- Implement non-zero initial conditions in filtering algorithm (DOI: 10.1109/78.492552)
