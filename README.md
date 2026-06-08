@@ -21,5 +21,5 @@ Optional zero-phase filtering of the data<br>
 |common anode bicolor led| https://www.digikey.ca/en/products/detail/lumex-opto-components-inc/SSL-LX3059IGW-CA/|
 |female header | 2x24 with 0.1" pitch, 1x4 optional for the sensor |
 |male header | 2x24 + 1x2 + 1x5 w/ 0.1" pitch|
-coin cell holder https://www.digikey.ca/en/products/detail/te-connectivity-amp-connectors/1775485-2/5272886<br>
+|coin cell holder |https://www.digikey.ca/en/products/detail/te-connectivity-amp-connectors/1775485-2/5272886|
 CR2032 battery https://www.digikey.ca/en/products/detail/panasonic-bsg/CR2032/31939<br>
